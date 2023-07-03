@@ -18,7 +18,12 @@ const GameOverScreen = () => {
         Your phone needed <Text style={styles.highlightText}>X</Text> rounds to
         guess the <Text style={styles.highlightText}>Y</Text> number.
       </Text>
-      <PrimaryButton>Play again!</PrimaryButton>
+      <PrimaryButton
+        style={styles.buttonStyle}
+        // onPressProp={newGameHandler.bind(this, 'new')}
+      >
+        Play again!
+      </PrimaryButton>
     </View>
   )
 }
@@ -58,5 +63,8 @@ const styles = StyleSheet.create({
   highlightText: {
     color: Colors.textDarkOrange,
     fontFamily: 'open-sans-bold',
+  },
+  buttonStyle: {
+    padding: 20,
   },
 })
