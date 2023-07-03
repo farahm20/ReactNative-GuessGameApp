@@ -7,13 +7,18 @@ import Colors from '../constants/colors'
 const GameOverScreen = () => {
   return (
     <View style={styles.rootContainer}>
-      <Title>GAME OVER!</Title>
+      <Title style={styles.titleText}>GAME OVER!</Title>
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}
           source={require('../assets/images/mountain-clip-art.png')}
         />
       </View>
+      <Text style={styles.summaryText}>
+        Your phone needed <Text style={styles.highlightText}>X</Text> rounds to
+        guess the <Text style={styles.highlightText}>Y</Text> number.
+      </Text>
+      <PrimaryButton>Play again!</PrimaryButton>
     </View>
   )
 }
@@ -26,6 +31,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  titleText: {
+    fontSize: 32,
+    color: Colors.textDarkOrange,
+  },
   imageContainer: {
     width: 300,
     height: 300,
@@ -36,7 +45,18 @@ const styles = StyleSheet.create({
     margin: 36,
   },
   image: {
+    //refer to the container image and percentage refers to width and height of the view that hold the image
     width: '100%',
     height: '100%',
+  },
+  summaryText: {
+    fontSize: 22,
+    fontFamily: 'open-sans',
+    textAlign: 'center',
+    marginBottom: 15,
+  },
+  highlightText: {
+    color: Colors.textDarkOrange,
+    fontFamily: 'open-sans-bold',
   },
 })

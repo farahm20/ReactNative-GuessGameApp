@@ -13,5 +13,6 @@ const Colors = {
   viewBoxPink: '#fededd',
   viewBoxBlue: '#deecfe',
   textPrimary: '#6b6d70',
+  textDarkOrange: '#c43b01',
 }
 export default Colors
