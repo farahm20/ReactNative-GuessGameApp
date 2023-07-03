@@ -3,38 +3,67 @@
 // Enter a number
 // a input to enter number
 // two buttons reset and confirm
-
-import { StyleSheet, View, TextInput } from 'react-native'
-import PrimaryButton from '../components/PrimaryButton'
 import { useState } from 'react'
+import { StyleSheet, View, TextInput, Alert, Text } from 'react-native'
+import PrimaryButton from '../components/ui/PrimaryButton'
+import Title from '../components/ui/Title'
+import Colors from '../constants/colors'
 
-function StartGameScreen() {
+function StartGameScreen({ onPickNumber }) {
   const [enteredNumber, setEnteredNumber] = useState('')
-  console.log(
-    '🚀 ~ file: StartGameScreen.js:13 ~ StartGameScreen ~ enteredNumber:',
-    enteredNumber,
-  )
+
+  function numberInputHandler(numberInput) {
+    setEnteredNumber(numberInput)
+  }
+  function confirmInputHandler() {
+    //parse received string into number
+    const chosenNumber = parseInt(enteredNumber)
+
+    if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
+      Alert.alert(
+        'Invalid number',
+        'Input should be a number between 1 and 99.',
+        [{ text: 'Okay', style: 'destructive', onPress: resetInputHandler }],
+      )
+      return
+    }
+    onPickNumber(chosenNumber)
+  }
+  function resetInputHandler() {
+    setEnteredNumber('')
+  }
 
   return (
     <>
-      <View style={styles.inputContainer}>
-        <View style={styles.internalContainer}>
-          <TextInput
-            style={styles.numberInput}
-            maxLength={2}
-            placeholder="00"
-            keyboardType="number-pad"
-            autoCapitalize="none"
-            autoCorrect={false}
-            onChangeText={numberInputHandler} //to handle value typed in input
-            value={enteredNumber}
-          />
-          <View style={styles.buttonsRow}>
-            <View style={styles.buttonSingle}>
-              <PrimaryButton>Reset</PrimaryButton>
-            </View>
-            <View style={styles.buttonSingle}>
-              <PrimaryButton>Cancel</PrimaryButton>
+      <View style={styles.rootContainer}>
+        <Title style={styles.titleText}>Guess the number! </Title>
+
+        <View style={styles.inputContainer}>
+          <View style={styles.internalContainer}>
+            <Title style={styles.instructionsText}>
+              Enter a number between 1-100
+            </Title>
+            <TextInput
+              style={styles.numberInput}
+              maxLength={2}
+              placeholder="00"
+              keyboardType="number-pad"
+              autoCapitalize="none"
+              autoCorrect={false}
+              onChangeText={numberInputHandler} //to handle value typed in input
+              value={enteredNumber}
+            />
+            <View style={styles.buttonsRow}>
+              <View style={styles.buttonSingle}>
+                <PrimaryButton onPressProp={resetInputHandler}>
+                  Reset
+                </PrimaryButton>
+              </View>
+              <View style={styles.buttonSingle}>
+                <PrimaryButton onPressProp={confirmInputHandler}>
+                  Confirm
+                </PrimaryButton>
+              </View>
             </View>
           </View>
         </View>
@@ -46,12 +75,17 @@ function StartGameScreen() {
 export default StartGameScreen
 
 const styles = StyleSheet.create({
-  inputContainer: {
+  rootContainer: {
+    flex: 1,
     marginTop: 100,
+    alignItems: 'center',
+  },
+  inputContainer: {
+    marginTop: 36,
     padding: 7,
-    backgroundColor: '#ffefde',
+    backgroundColor: Colors.viewBoxPeach,
     marginHorizontal: 24,
-    borderRadius: '10%',
+    borderRadius: 10,
     elevation: 4, //android specific for shadow
     //shadows for iOS
     shadowColor: 'black',
@@ -64,18 +98,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     padding: 40,
-    borderRadius: '10%',
-    borderColor: 'rgb(247, 218, 177)',
+    borderRadius: 10,
+    borderColor: Colors.backgroundPrimary,
     borderWidth: 2,
+  },
+  titleText: {
+    color: Colors.orangeDark,
+    fontSize: 30,
+  },
+  instructionsText: {
+    fontFamily: 'open-sans',
+    fontSize: 18,
+    textAlign: 'center',
+    marginBottom: 15,
+    color: Colors.rippleOrange,
   },
   numberInput: {
     height: 50,
     width: 50,
     textAlign: 'center',
     fontSize: 32,
-    borderBottomColor: '#ff7e44',
+    fontFamily: 'open-sans-bold',
+    borderBottomColor: Colors.orange,
     borderBottomWidth: 2,
-    color: '#6b6d70',
+    color: Colors.textPrimary,
     marginBottom: 20,
   },
   buttonsRow: {
