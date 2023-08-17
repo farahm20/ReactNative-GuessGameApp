@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text, Dimensions } from 'react-native'
 import Colors from '../../constants/colors'
 
 const NumberContainer = ({ children }) => {
@@ -11,9 +11,12 @@ const NumberContainer = ({ children }) => {
 }
 
 export default NumberContainer
+
+const deviceHeight = Dimensions.get('window').height
+
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
+    padding: deviceHeight > 500 ? 15 : 5,
     borderRadius: 10,
     backgroundColor: Colors.viewBoxBlue,
     borderWidth: 1,

@@ -4,13 +4,20 @@
 // a input to enter number
 // two buttons reset and confirm
 import { useState } from 'react'
-import { StyleSheet, View, TextInput, Alert, Text } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  Alert,
+  useWindowDimensions,
+} from 'react-native'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Title from '../components/ui/Title'
 import Colors from '../constants/colors'
 
 function StartGameScreen({ onPickNumber }) {
   const [enteredNumber, setEnteredNumber] = useState('')
+  const { width, height } = useWindowDimensions()
 
   function numberInputHandler(numberInput) {
     setEnteredNumber(numberInput)
@@ -33,9 +40,11 @@ function StartGameScreen({ onPickNumber }) {
     setEnteredNumber('')
   }
 
+  const marginTopSpace = height < 500 ? 30 : 100
+
   return (
     <>
-      <View style={styles.rootContainer}>
+      <View style={[styles.rootContainer, { marginTop: marginTopSpace }]}>
         <Title style={styles.titleText}>Guess the number! </Title>
 
         <View style={styles.inputContainer}>
@@ -74,10 +83,11 @@ function StartGameScreen({ onPickNumber }) {
 
 export default StartGameScreen
 
+//
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    marginTop: 100,
+    // marginTop: deviceHeight < 500 ? 30 : 100,
     alignItems: 'center',
   },
   inputContainer: {

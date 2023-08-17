@@ -4,7 +4,12 @@ import Title from '../components/ui/Title'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Colors from '../constants/colors'
 
-const GameOverScreen = () => {
+const GameOverScreen = ({ roundsNumber, userNumber, onStartNewGame }) => {
+  console.log(
+    '🚀 ~ file: GameOverScreen.js:8 ~ GameOverScreen ~ roundsNumber:',
+    roundsNumber,
+  )
+
   return (
     <View style={styles.rootContainer}>
       <Title style={styles.titleText}>GAME OVER!</Title>
@@ -15,13 +20,11 @@ const GameOverScreen = () => {
         />
       </View>
       <Text style={styles.summaryText}>
-        Your phone needed <Text style={styles.highlightText}>X</Text> rounds to
-        guess the <Text style={styles.highlightText}>Y</Text> number.
+        Your phone needed{' '}
+        <Text style={styles.highlightText}>{roundsNumber}</Text> rounds to guess
+        the <Text style={styles.highlightText}>{userNumber}</Text> number.
       </Text>
-      <PrimaryButton
-        style={styles.buttonStyle}
-        // onPressProp={newGameHandler.bind(this, 'new')}
-      >
+      <PrimaryButton style={styles.buttonStyle} onPressProp={onStartNewGame}>
         Play again!
       </PrimaryButton>
     </View>
@@ -44,8 +47,8 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
     borderRadius: 150,
-    borderWidth: 5,
-    borderColor: Colors.pinkBorder,
+    borderWidth: 3,
+    borderColor: Colors.textDarkOrange,
     overflow: 'hidden',
     margin: 36,
   },
