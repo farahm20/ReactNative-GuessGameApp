@@ -11,12 +11,20 @@ import {
 } from 'react-native'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import NumberContainer from '../components/game/NumberContainer'
+
 import Title from '../components/ui/Title'
 import Card from '../components/ui/Card'
 import Colors from '../constants/colors'
 import GuessLogItem from '../components/game/GuessLogItem'
 
 function generateRandomBetween(min, max, exclude) {
+  console.log(
+    '🚀 ~ file: GameScreen.js:11 ~ generateRandomBetween ~ min, max, exclude:',
+    min,
+    max,
+    exclude,
+  )
+
   const roundedNumber = Math.floor(Math.random() * (max - min)) + min
   if (roundedNumber === exclude) {
     return generateRandomBetween(min, max, exclude)
@@ -24,7 +32,7 @@ function generateRandomBetween(min, max, exclude) {
     return roundedNumber
   }
 }
-//outside the component function because when the component is re-executed(example with each guess) we don't want to reset them every time. But we want to to reset these when the new game starts
+
 let minBoundary = 1
 let maxBoundary = 100
 const GameScreen = ({ userNumber, onGameOver }) => {
@@ -45,6 +53,7 @@ const GameScreen = ({ userNumber, onGameOver }) => {
     minBoundary = 1
     maxBoundary = 100
   }, [])
+
   function nextGuessHandler(direction) {
     // direction => 'lower', 'greater'
     if (
@@ -71,12 +80,13 @@ const GameScreen = ({ userNumber, onGameOver }) => {
     setCurrentGuess(newRndNumber)
     setGuessRounds((prevGuessRounds) => [newRndNumber, ...prevGuessRounds])
   }
+
   const guessRoundsListLength = guessRounds.length
 
   let content = (
     <>
       <NumberContainer>{currentGuess}</NumberContainer>
-      <Card>
+      <View>
         <Text style={styles.instructionsText}>Higher or Lower?</Text>
         <View style={styles.buttonsRow}>
           <View style={styles.buttonSingle}>
@@ -93,7 +103,7 @@ const GameScreen = ({ userNumber, onGameOver }) => {
             </PrimaryButton>
           </View>
         </View>
-      </Card>
+      </View>
     </>
   )
 
@@ -118,12 +128,33 @@ const GameScreen = ({ userNumber, onGameOver }) => {
       </>
     )
   }
+
   return (
     <View style={styles.gameScreen}>
       <View style={styles.mainContainer}>
         <Title>Opponent's Guess!</Title>
         {content}
+        {/* <NumberContainer>{currentGuess}</NumberContainer> */}
+        {/* <View>
+          <Text style={styles.instructionsText}>Higher or Lower?</Text>
+          <View style={styles.buttonsRow}>
+            <View style={styles.buttonSingle}>
+              <PrimaryButton onPressProp={nextGuessHandler.bind(this, 'lower')}>
+                <Ionicons name="md-remove" size={24} color={'black'}></Ionicons>
+              </PrimaryButton>
+            </View>
+            <View style={styles.buttonSingle}>
+              <PrimaryButton
+                style={styles.buttonStyle}
+                onPressProp={nextGuessHandler.bind(this, 'higher')}
+              >
+                <Ionicons name="md-add" size={24} color={'black'}></Ionicons>
+              </PrimaryButton>
+            </View>
+          </View>
+        </View> */}
       </View>
+
       <View style={styles.listContainer}>
         {/* {guessRounds.map((guessRound) => (
           <Card key={guessRound}>{guessRound}</Card>
@@ -142,10 +173,8 @@ const GameScreen = ({ userNumber, onGameOver }) => {
     </View>
   )
 }
+
 export default GameScreen
-
-const deviceHeight = Dimensions.get('window').height
-
 const styles = StyleSheet.create({
   gameScreen: {
     flex: 1,
@@ -161,7 +190,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.pinkBorder,
     marginBottom: 15,
-    marginTop: deviceHeight < 900 ? 25 : 55,
   },
   buttonsRow: {
     flexDirection: 'row',
